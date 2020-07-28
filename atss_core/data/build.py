@@ -77,6 +77,8 @@ def _compute_aspect_ratios(dataset):
     aspect_ratios = []
     for i in range(len(dataset)):
         img_info = dataset.get_img_info(i)
+        # print("--------------------")
+        # print(img_info)
         aspect_ratio = float(img_info["height"]) / float(img_info["width"])
         aspect_ratios.append(aspect_ratio)
     return aspect_ratios

@@ -79,9 +79,13 @@ class COCODataset(torchvision.datasets.coco.CocoDetection):
         classes = torch.tensor(classes)
         target.add_field("labels", classes)
 
-        masks = [obj["segmentation"] for obj in anno]
-        masks = SegmentationMask(masks, img.size, mode='poly')
-        target.add_field("masks", masks)
+
+        # 自己构建的数据可能没有mask, 因此屏蔽掉，但是如果要做分割任务需要开启！！！！
+        should_mask = False
+        if should_mask:
+            masks = [obj["segmentation"] for obj in anno]
+            masks = SegmentationMask(masks, img.size, mode='poly')
+            target.add_field("masks", masks)
 
         if anno and "keypoints" in anno[0]:
             keypoints = [obj["keypoints"] for obj in anno]
